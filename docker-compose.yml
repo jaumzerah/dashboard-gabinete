@@ -31,7 +31,7 @@ services:
         - "traefik.enable=true"
         - "traefik.http.routers.dashboard-gabinete.rule=Host(`dashboard.gabinete.cloud`)"
         - "traefik.http.routers.dashboard-gabinete.entrypoints=websecure"
-        - "traefik.http.routers.dashboard-gabinete.tls.certresolver=letsencrypt"
+        - "traefik.http.routers.dashboard-gabinete.tls.certresolver=letsencryptresolver"
         - "traefik.http.services.dashboard-gabinete.loadbalancer.server.port=3000"
       placement:
         constraints:
