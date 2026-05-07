@@ -991,9 +991,27 @@ body {
   /* Topbar */
   .topbar {
     padding: 10px 14px;
+    gap: 8px;
+  }
+
+  .topbar-title {
+    font-size: 13px;
+  }
+
+  .topbar-sub {
+    display: none;
   }
 
   .topbar-date {
+    display: none;
+  }
+
+  .topbar-live {
+    font-size: 9px;
+    gap: 4px;
+  }
+
+  .topbar-live span {
     display: none;
   }
 
