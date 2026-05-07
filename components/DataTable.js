@@ -1,4 +1,4 @@
-import { MapPin, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
+import { MapPin, CalendarDays, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 import Badge from './Badge';
 import PBadge from './PBadge';
 
@@ -11,86 +11,63 @@ export default function DataTable({ data, total, page, onPageChange, loading, on
     const pages = [];
     const maxVisible = 5;
     let start, end;
-
-    if (totalPages <= maxVisible) {
-      start = 1;
-      end = totalPages;
-    } else if (page <= 3) {
-      start = 1;
-      end = maxVisible;
-    } else if (page >= totalPages - 2) {
-      start = totalPages - maxVisible + 1;
-      end = totalPages;
-    } else {
-      start = page - 2;
-      end = page + 2;
-    }
-
-    for (let i = start; i <= end; i++) {
-      pages.push(i);
-    }
+    if (totalPages <= maxVisible) { start = 1; end = totalPages; }
+    else if (page <= 3) { start = 1; end = maxVisible; }
+    else if (page >= totalPages - 2) { start = totalPages - maxVisible + 1; end = totalPages; }
+    else { start = page - 2; end = page + 2; }
+    for (let i = start; i <= end; i++) pages.push(i);
     return pages;
   };
 
   return (
-    <div className="table-container">
-      <div className="table-scroll">
-        <table className="data-table">
-          <thead>
-            <tr>
-              {['Protocolo', 'Demandante', 'Município / UF', 'Tema / Tipo', 'Cadastrante', 'Data Entrada', 'Prior.', 'Status', ''].map((h) => (
-                <th key={h}>{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {data.length === 0 ? (
-              <tr>
-                <td colSpan={9} className="table-empty">
-                  {loading ? 'Buscando demandas...' : 'Nenhuma demanda encontrada.'}
-                </td>
-              </tr>
-            ) : (
-              data.map((d) => (
-                <tr key={d.id}>
-                  <td>
-                    <span className="td-protocolo">{d.protocolo}</span>
-                  </td>
-                  <td>
-                    <p className="td-demandante-name">{d.demandante}</p>
-                    <p className="td-demandante-canal">{d.canal_origem}</p>
-                  </td>
-                  <td>
-                    <div className="td-municipio">
-                      <MapPin size={11} color="#94a3b8" />
-                      {d.municipio}/{d.uf}
-                    </div>
-                  </td>
-                  <td>
-                    <p className="td-tema">{d.tema_assunto}</p>
-                    <p className="td-tipo">{d.tipo_demanda}</p>
-                  </td>
-                  <td className="td-cadastrante">
-                    {d.cadastrante?.split(' ')[0]}
-                  </td>
-                  <td className="td-data">{d.data_entrada}</td>
-                  <td><PBadge prioridade={d.prioridade} /></td>
-                  <td><Badge status={d.status} /></td>
-                  <td>
-                    <button
-                      className="view-btn"
-                      onClick={() => onView(d)}
-                      aria-label={`Ver demanda ${d.protocolo}`}
-                    >
-                      <Eye size={13} /> ver
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+    <div className="cards-container">
+      {loading ? (
+        <div className="cards-loading">Buscando demandas...</div>
+      ) : data.length === 0 ? (
+        <div className="cards-empty">Nenhuma demanda encontrada.</div>
+      ) : (
+        <div className="cards-grid">
+          {data.map((d) => (
+            <button
+              key={d.id}
+              className="demand-card"
+              onClick={() => onView(d)}
+              aria-label={`Ver demanda ${d.protocolo}`}
+            >
+              <div className="demand-card-header">
+                <span className="demand-card-protocolo">{d.protocolo || `#${d.id}`}</span>
+                <Badge status={d.status} />
+              </div>
+
+              <p className="demand-card-name">{d.demandante || '—'}</p>
+              <p className="demand-card-tema">{d.tema_assunto || '—'}</p>
+
+              <div className="demand-card-footer">
+                <div className="demand-card-meta">
+                  {d.municipio && (
+                    <span className="demand-card-meta-item">
+                      <MapPin size={11} />
+                      {d.municipio}{d.uf ? `/${d.uf}` : ''}
+                    </span>
+                  )}
+                  {d.data_entrada && (
+                    <span className="demand-card-meta-item">
+                      <CalendarDays size={11} />
+                      {d.data_entrada}
+                    </span>
+                  )}
+                </div>
+                <div className="demand-card-right">
+                  <PBadge prioridade={d.prioridade} />
+                  <span className="demand-card-ver">
+                    <Eye size={12} /> ver
+                  </span>
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
 
       {totalPages > 1 && (
         <div className="pagination">
@@ -106,7 +83,6 @@ export default function DataTable({ data, total, page, onPageChange, loading, on
             >
               <ChevronLeft size={14} color="#64748b" />
             </button>
-
             {getPageNumbers().map((p) => (
               <button
                 key={p}
@@ -116,7 +92,6 @@ export default function DataTable({ data, total, page, onPageChange, loading, on
                 {p}
               </button>
             ))}
-
             <button
               className="page-arrow"
               onClick={() => onPageChange(Math.min(totalPages, page + 1))}
