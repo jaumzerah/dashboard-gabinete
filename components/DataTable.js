@@ -2,7 +2,7 @@ import { MapPin, CalendarDays, ChevronLeft, ChevronRight, Eye } from 'lucide-rea
 import Badge from './Badge';
 import PBadge from './PBadge';
 
-const PER_PAGE = 12;
+const PER_PAGE = 6;
 
 export default function DataTable({ data, total, page, onPageChange, loading, onView }) {
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
@@ -26,7 +26,7 @@ export default function DataTable({ data, total, page, onPageChange, loading, on
       ) : data.length === 0 ? (
         <div className="cards-empty">Nenhuma demanda encontrada.</div>
       ) : (
-        <div className="cards-grid">
+        <div className="cards-grid" key={page}>
           {data.map((d) => (
             <button
               key={d.id}

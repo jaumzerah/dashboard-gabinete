@@ -8,7 +8,7 @@ import DataTable from '@/components/DataTable';
 import DemandaModal from '@/components/DemandaModal';
 import { useSidebar } from '@/lib/SidebarContext';
 
-const PER_PAGE = 12;
+const PER_PAGE = 6;
 const POLL_INTERVAL = 30000;
 
 export default function DashboardPage() {

@@ -65,7 +65,6 @@ export default function Sidebar({ username, isOpen, onClose, alertCount = 0 }) {
             </div>
             <div>
               <p className="sidebar-user-name">{username || 'Usuário'}</p>
-              <p className="sidebar-user-role">Chefe de gabinete</p>
             </div>
           </div>
           <button className="sidebar-logout-btn" onClick={handleLogout}>
