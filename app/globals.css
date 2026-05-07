@@ -231,13 +231,6 @@ body {
   display: flex;
   align-items: center;
   gap: 9px;
-  background: var(--green-light);
-}
-
-.sidebar-nav-item span {
-  font-size: 12px;
-  color: white;
-  font-weight: 600;
 }
 
 .sidebar-footer {
@@ -971,6 +964,11 @@ body {
     justify-content: center;
   }
 
+  .export-csv-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
   .filter-count {
     margin-left: 0;
     text-align: center;
@@ -1006,4 +1004,439 @@ body {
   .content-area {
     padding: 12px 14px;
   }
+}
+
+/* ─── Sidebar navigation links ────────────────────────────────────────── */
+.sidebar-nav-link {
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--transition);
+  background: transparent;
+}
+
+.sidebar-nav-link:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.sidebar-nav-link span {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.sidebar-nav-active {
+  background: var(--green-light) !important;
+}
+
+.sidebar-nav-active span {
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+.sidebar-alert-badge {
+  margin-left: auto;
+  background: #ef4444;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  line-height: 1.4;
+}
+
+/* ─── Export CSV button ────────────────────────────────────────────────── */
+.export-csv-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-md);
+  background: white;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition);
+  flex-shrink: 0;
+}
+
+.export-csv-btn:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+/* ─── Page states (loading / empty) ───────────────────────────────────── */
+.page-loading {
+  padding: 60px;
+  text-align: center;
+  color: var(--text-light);
+  font-size: 13px;
+}
+
+.page-empty {
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--text-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-empty p {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.page-empty span {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+/* ─── Alertas page ─────────────────────────────────────────────────────── */
+.alert-summary-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.alert-section {
+  background: white;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.alert-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.alert-count-badge {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.alert-count-danger {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.alert-count-warning {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.alert-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--border);
+}
+
+.alert-card {
+  background: white;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.alert-card-danger {
+  border-left: 3px solid #ef4444;
+}
+
+.alert-card-warning {
+  border-left: 3px solid #f59e0b;
+}
+
+.alert-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.alert-protocolo {
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+.alert-prazo {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.alert-prazo-danger { color: #ef4444; }
+.alert-prazo-warning { color: #f59e0b; }
+
+.alert-demandante {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.alert-tema {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.alert-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.alert-municipio {
+  font-size: 11px;
+  color: var(--text-light);
+}
+
+.alert-status {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background: var(--bg-section);
+  color: var(--text-muted);
+}
+
+/* ─── Agenda page ──────────────────────────────────────────────────────── */
+.agenda-summary {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.agenda-section {
+  margin-bottom: 24px;
+}
+
+.agenda-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+.agenda-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.agenda-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: 14px 16px;
+  display: flex;
+  gap: 16px;
+  transition: box-shadow var(--transition);
+}
+
+.agenda-card:hover {
+  box-shadow: var(--shadow-card);
+}
+
+.agenda-card-upcoming {
+  border-left: 3px solid var(--green);
+}
+
+.agenda-card-past {
+  opacity: 0.65;
+}
+
+.agenda-date-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  background: var(--bg-section);
+  border-radius: var(--radius-md);
+  padding: 6px 8px;
+}
+
+.agenda-day {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.agenda-month {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.agenda-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.agenda-tema {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.agenda-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.agenda-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.agenda-badges {
+  display: flex;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.agenda-protocolo {
+  font-family: monospace;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-light);
+  background: var(--bg-section);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+.agenda-status {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-section);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+/* ─── Configurações page ───────────────────────────────────────────────── */
+.config-section {
+  max-width: 480px;
+}
+
+.config-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.config-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: 20px;
+}
+
+.config-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.config-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.config-field label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.config-feedback {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.config-feedback-success {
+  background: rgba(22, 163, 74, 0.08);
+  color: #16a34a;
+  border: 1px solid rgba(22, 163, 74, 0.2);
+}
+
+.config-feedback-error {
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.config-save-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 20px;
+  background: var(--green);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition);
+  margin-top: 4px;
+}
+
+.config-save-btn:hover:not(:disabled) {
+  background: var(--green-hover);
+}
+
+.config-save-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
 }

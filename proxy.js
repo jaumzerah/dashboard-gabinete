@@ -21,5 +21,5 @@ export async function proxy(request) {
 }
 
 export const config = {
-  matcher: ['/', '/api/:path*'],
+  matcher: ['/', '/alertas', '/agenda', '/configuracoes', '/api/:path*'],
 };

@@ -1,4 +1,4 @@
-import { Search, X } from 'lucide-react';
+import { Search, X, Download } from 'lucide-react';
 
 export default function FilterBar({
   search, onSearchChange,
@@ -11,6 +11,10 @@ export default function FilterBar({
   hasFilters,
   onClearFilters,
 }) {
+  const handleExportCSV = () => {
+    const params = new URLSearchParams({ status, municipio, prioridade, search, format: 'csv' });
+    window.location.href = `/api/demandas?${params}`;
+  };
   return (
     <div className="filter-bar">
       <div className="filter-row">
@@ -67,6 +71,10 @@ export default function FilterBar({
             <X size={13} /> Limpar
           </button>
         )}
+
+        <button className="export-csv-btn" onClick={handleExportCSV} title="Exportar CSV">
+          <Download size={13} /> CSV
+        </button>
 
         <span className="filter-count">
           {total} demanda{total !== 1 ? 's' : ''}

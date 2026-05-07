@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
-import { createToken, validateCredentials, COOKIE_NAME } from '@/lib/auth';
+import bcrypt from 'bcryptjs';
+import { createToken, COOKIE_NAME } from '@/lib/auth';
 import { checkRateLimit } from '@/lib/rateLimit';
+import pool from '@/lib/db';
 
 /**
  * POST /api/auth — Login
@@ -37,7 +39,8 @@ export async function POST(request) {
       );
     }
 
-    if (!validateCredentials(username, password)) {
+    const valid = await validateLogin(username, password);
+    if (!valid) {
       return NextResponse.json(
         { success: false, message: 'Usuário ou senha incorretos.' },
         {
@@ -66,6 +69,29 @@ export async function POST(request) {
       { success: false, message: 'Erro interno do servidor.' },
       { status: 500 }
     );
+  }
+}
+
+async function validateLogin(username, password) {
+  try {
+    // Check bcrypt hash in DB first (users who changed password)
+    const res = await pool.query(
+      'SELECT hash FROM user_passwords WHERE username = $1',
+      [username]
+    );
+    if (res.rows.length > 0) {
+      return bcrypt.compare(password, res.rows[0].hash);
+    }
+  } catch {
+    // Table may not exist yet; fall through to env check
+  }
+
+  // Fall back to DASH_USERS env var (JSON: {"user":"pass"})
+  try {
+    const users = JSON.parse(process.env.DASH_USERS || '{}');
+    return users[username] === password;
+  } catch {
+    return false;
   }
 }
 
