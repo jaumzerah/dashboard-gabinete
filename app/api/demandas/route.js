@@ -1,28 +1,19 @@
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db';
-import { getSession } from '@/lib/auth';
 
 /**
  * GET /api/demandas — List demands with filters and pagination
  * Query params: status, municipio, prioridade, search, limit, offset
  */
 export async function GET(request) {
-  const session = await getSession();
-  if (!session) {
-    return NextResponse.json(
-      { success: false, message: 'Não autenticado.' },
-      { status: 401 }
-    );
-  }
-
   try {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status') || 'todos';
     const municipio = searchParams.get('municipio') || 'todos';
     const prioridade = searchParams.get('prioridade') || 'todos';
-    const search = searchParams.get('search') || '';
-    const limit = Math.min(parseInt(searchParams.get('limit') || '12', 10), 100);
-    const offset = parseInt(searchParams.get('offset') || '0', 10);
+    const search = (searchParams.get('search') || '').slice(0, 100);
+    const limit = Math.min(Math.max(parseInt(searchParams.get('limit'), 10) || 12, 1), 100);
+    const offset = Math.max(parseInt(searchParams.get('offset'), 10) || 0, 0);
 
     // Build WHERE clauses dynamically
     const conditions = [];

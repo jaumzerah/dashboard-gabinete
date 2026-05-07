@@ -29,23 +29,11 @@ export default function DashboardPage() {
   const [lastUpdate, setLastUpdate] = useState(null);
   const intervalRef = useRef(null);
 
-  // Fetch username from cookie (client-side)
   useEffect(() => {
-    // Try to extract username from the JWT (we decode the payload only - no verification needed client-side)
-    try {
-      const cookies = document.cookie.split(';').reduce((acc, c) => {
-        const [k, v] = c.trim().split('=');
-        acc[k] = v;
-        return acc;
-      }, {});
-      const token = cookies['dash_session'];
-      if (token) {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        setUsername(payload.username || '');
-      }
-    } catch {
-      // ignore
-    }
+    fetch('/api/auth/me')
+      .then((r) => r.json())
+      .then((d) => { if (d.success) setUsername(d.username || ''); })
+      .catch(() => {});
   }, []);
 
   const fetchData = useCallback(async (isBackground = false) => {

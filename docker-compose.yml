@@ -13,6 +13,7 @@ services:
       - DATABASE_URL=postgresql://postgres:password@postgres_postgres:5432/database_name
       - DASH_USERS={"chefe":"apolonio2025","admin":"gabinete2025"}
       - JWT_SECRET=TROCAR-POR-UMA-CHAVE-SECRETA-ALEATORIA
+      - REDIS_URL=redis://redis_redis:6379
       - HOSTNAME=0.0.0.0
       - PORT=3000
       - NODE_ENV=production
@@ -35,6 +36,13 @@ services:
         - "traefik.http.services.dashboard-gabinete.loadbalancer.server.port=3000"
 
       # Define onde o serviço será implantado
+      healthcheck:
+        test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
+        interval: 30s
+        timeout: 5s
+        retries: 3
+        start_period: 15s
+
       placement:
         constraints:
           - node.role == manager
