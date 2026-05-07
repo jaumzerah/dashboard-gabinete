@@ -76,12 +76,7 @@ export default function DashboardPage() {
           <button className="hamburger-btn" onClick={() => setOpen(true)} aria-label="Abrir menu">
             <Menu size={20} color="#64748b" />
           </button>
-          <div>
-            <h1 className="topbar-title">Controle de Demandas</h1>
-            <p className="topbar-sub">
-              Dep. Federal Reimont — PT/RJ · tabela: <code>controle_demanda</code>
-            </p>
-          </div>
+          <h1 className="topbar-title">Controle de Demandas</h1>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
           <p className="topbar-date">
