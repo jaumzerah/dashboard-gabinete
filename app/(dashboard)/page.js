@@ -24,10 +24,16 @@ export default function DashboardPage() {
   const [filterStatus, setFilterStatus] = useState('todos');
   const [filterMunicipio, setFilterMunicipio] = useState('todos');
   const [filterPrioridade, setFilterPrioridade] = useState('todos');
+  const [searchInput, setSearchInput] = useState('');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
 
   const intervalRef = useRef(null);
+
+  useEffect(() => {
+    const t = setTimeout(() => { setSearch(searchInput); setPage(1); }, 400);
+    return () => clearTimeout(t);
+  }, [searchInput]);
 
   const fetchData = useCallback(async (isBackground = false) => {
     if (!isBackground) setLoading(true);
@@ -67,7 +73,7 @@ export default function DashboardPage() {
     return () => clearInterval(intervalRef.current);
   }, [fetchData]);
 
-  const hasFilters = filterStatus !== 'todos' || filterMunicipio !== 'todos' || filterPrioridade !== 'todos' || search !== '';
+  const hasFilters = filterStatus !== 'todos' || filterMunicipio !== 'todos' || filterPrioridade !== 'todos' || searchInput !== '';
 
   return (
     <>
@@ -81,8 +87,8 @@ export default function DashboardPage() {
       <div className="content-area">
         <StatsCards stats={stats} />
         <FilterBar
-          search={search}
-          onSearchChange={(val) => { setSearch(val); setPage(1); }}
+          search={searchInput}
+          onSearchChange={setSearchInput}
           status={filterStatus}
           onStatusChange={(val) => { setFilterStatus(val); setPage(1); }}
           municipio={filterMunicipio}
@@ -93,7 +99,7 @@ export default function DashboardPage() {
           total={pagination.total || 0}
           loading={loading}
           hasFilters={hasFilters}
-          onClearFilters={() => { setFilterStatus('todos'); setFilterMunicipio('todos'); setFilterPrioridade('todos'); setSearch(''); setPage(1); }}
+          onClearFilters={() => { setFilterStatus('todos'); setFilterMunicipio('todos'); setFilterPrioridade('todos'); setSearchInput(''); setSearch(''); setPage(1); }}
         />
         <DataTable
           data={demandas}
