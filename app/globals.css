@@ -624,7 +624,9 @@ body {
 
 /* ─── Pagination ───────────────────────────────────────────────────────── */
 .pagination {
-  padding: 8px 2px;
+  padding: 10px 2px 6px;
+  margin-top: 4px;
+  border-top: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
