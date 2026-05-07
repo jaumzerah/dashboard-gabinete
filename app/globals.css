@@ -514,25 +514,28 @@ body {
   flex: 1;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
-  background: var(--border);
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg-main);
 }
 
 .demand-card {
   background: white;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
   padding: 14px 16px;
   display: flex;
   flex-direction: column;
   gap: 7px;
   text-align: left;
-  border: none;
   cursor: pointer;
-  transition: background var(--transition);
+  transition: box-shadow var(--transition), border-color var(--transition);
   width: 100%;
 }
 
 .demand-card:hover {
-  background: #f8faff;
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.07);
 }
 
 .demand-card-header {
@@ -824,6 +827,25 @@ body {
   gap: 10px;
 }
 
+/* ─── Modal Drive link ─────────────────────────────────────────────────── */
+.modal-drive-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1d4ed8;
+  text-decoration: none;
+  padding: 6px 12px;
+  background: #dbeafe;
+  border-radius: var(--radius-md);
+  transition: background var(--transition);
+}
+
+.modal-drive-link:hover {
+  background: #bfdbfe;
+}
+
 /* ─── Modal Field ──────────────────────────────────────────────────────── */
 .modal-field-label {
   font-size: 10px;
@@ -1000,6 +1022,8 @@ body {
   /* Cards: 1 coluna no mobile */
   .cards-grid {
     grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 10px;
   }
 }
 

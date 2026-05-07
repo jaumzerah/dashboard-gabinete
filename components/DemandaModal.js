@@ -62,7 +62,19 @@ export default function DemandaModal({ d, onClose }) {
               {d.justificativa_da_prioridade && (
                 <ModalField label="Justificativa da Prioridade" value={d.justificativa_da_prioridade} />
               )}
-              {d.historico && <ModalField label="Histórico" value={d.historico} />}
+              {d.historico && (
+                <div>
+                  <p className="modal-field-label">Histórico</p>
+                  <a
+                    href={`https://drive.google.com/open?id=${d.historico}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="modal-drive-link"
+                  >
+                    📄 Abrir no Google Drive
+                  </a>
+                </div>
+              )}
               {d.resposta_sintese && <ModalField label="Síntese da Resposta" value={d.resposta_sintese} />}
               {d.data_resposta && <ModalField label="Data da Resposta" value={d.data_resposta} />}
               {d.link_protocolo_externo && (
