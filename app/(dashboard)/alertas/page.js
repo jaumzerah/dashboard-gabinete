@@ -22,24 +22,18 @@ export default function AlertasPage() {
 
   return (
     <>
-      <div className="topbar">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <button className="hamburger-btn" onClick={() => setOpen(true)} aria-label="Abrir menu">
-            <Menu size={20} color="#64748b" />
-          </button>
-          <div>
-            <h1 className="topbar-title">Alertas de Prazo</h1>
-            <p className="topbar-sub">Demandas vencidas ou a vencer em até 3 dias</p>
-          </div>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          {!loading && (
-            <span className="alert-summary-badge">
-              <Bell size={13} /> {data.length} alerta{data.length !== 1 ? 's' : ''}
-            </span>
-          )}
-        </div>
+      <div className="mobile-topbar">
+        <button className="hamburger-btn" onClick={() => setOpen(true)} aria-label="Abrir menu">
+          <Menu size={20} color="#64748b" />
+        </button>
+        <span className="mobile-topbar-title">Alertas de Prazo</span>
+        {!loading && data.length > 0 && (
+          <span className="alert-summary-badge" style={{ marginLeft: 'auto' }}>
+            <Bell size={13} /> {data.length}
+          </span>
+        )}
       </div>
+      <div className="page-section-title">Alertas de Prazo</div>
 
       <div className="content-area">
         {loading ? (

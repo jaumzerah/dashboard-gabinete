@@ -8,6 +8,7 @@ export default function DashboardLayout({ children }) {
   const [username, setUsername] = useState('');
   const [alertCount, setAlertCount] = useState(0);
   const [open, setOpen] = useState(false);
+  const [lastUpdate, setLastUpdate] = useState(null);
 
   useEffect(() => {
     fetch('/api/auth/me')
@@ -24,13 +25,14 @@ export default function DashboardLayout({ children }) {
   }, []);
 
   return (
-    <SidebarContext.Provider value={{ open, setOpen }}>
+    <SidebarContext.Provider value={{ open, setOpen, lastUpdate, setLastUpdate }}>
       <div className="app-layout">
         <Sidebar
           username={username}
           isOpen={open}
           onClose={() => setOpen(false)}
           alertCount={alertCount}
+          lastUpdate={lastUpdate}
         />
         <div className="main-content">
           {children}

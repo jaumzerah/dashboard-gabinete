@@ -25,23 +25,13 @@ export default function AgendaPage() {
 
   return (
     <>
-      <div className="topbar">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <button className="hamburger-btn" onClick={() => setOpen(true)} aria-label="Abrir menu">
-            <Menu size={20} color="#64748b" />
-          </button>
-          <div>
-            <h1 className="topbar-title">Agenda</h1>
-            <p className="topbar-sub">Reuniões agendadas nas demandas</p>
-          </div>
-        </div>
-        {!loading && (
-          <span className="agenda-summary">
-            <Calendar size={13} />
-            {proximas.length} próxima{proximas.length !== 1 ? 's' : ''}
-          </span>
-        )}
+      <div className="mobile-topbar">
+        <button className="hamburger-btn" onClick={() => setOpen(true)} aria-label="Abrir menu">
+          <Menu size={20} color="#64748b" />
+        </button>
+        <span className="mobile-topbar-title">Agenda</span>
       </div>
+      <div className="page-section-title">Agenda</div>
 
       <div className="content-area">
         {loading ? (

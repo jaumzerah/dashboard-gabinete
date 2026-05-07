@@ -58,17 +58,13 @@ export default function ConfiguracoesPage() {
 
   return (
     <>
-      <div className="topbar">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <button className="hamburger-btn" onClick={() => setOpen(true)} aria-label="Abrir menu">
-            <Menu size={20} color="#64748b" />
-          </button>
-          <div>
-            <h1 className="topbar-title">Configurações</h1>
-            <p className="topbar-sub">Gerencie as configurações do painel</p>
-          </div>
-        </div>
+      <div className="mobile-topbar">
+        <button className="hamburger-btn" onClick={() => setOpen(true)} aria-label="Abrir menu">
+          <Menu size={20} color="#64748b" />
+        </button>
+        <span className="mobile-topbar-title">Configurações</span>
       </div>
+      <div className="page-section-title">Configurações</div>
 
       <div className="content-area">
         <div className="config-section">

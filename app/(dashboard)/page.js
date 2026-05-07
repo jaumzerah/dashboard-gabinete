@@ -12,7 +12,7 @@ const PER_PAGE = 6;
 const POLL_INTERVAL = 30000;
 
 export default function DashboardPage() {
-  const { setOpen } = useSidebar();
+  const { setOpen, setLastUpdate } = useSidebar();
 
   const [demandas, setDemandas] = useState([]);
   const [stats, setStats] = useState({ total: 0, aberto: 0, aguardando: 0, concluida: 0 });
@@ -26,7 +26,6 @@ export default function DashboardPage() {
   const [filterPrioridade, setFilterPrioridade] = useState('todos');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
-  const [lastUpdate, setLastUpdate] = useState(null);
 
   const intervalRef = useRef(null);
 
@@ -51,7 +50,8 @@ export default function DashboardPage() {
         setStats(result.stats || { total: 0, aberto: 0, aguardando: 0, concluida: 0 });
         setPagination(result.pagination || { total: 0 });
         if (result.filters) setFilterOpts(result.filters);
-        setLastUpdate(new Date());
+        const now = new Date();
+        setLastUpdate(now);
       }
     } catch (err) {
       console.error('[Dashboard] Fetch error:', err);
@@ -71,25 +71,11 @@ export default function DashboardPage() {
 
   return (
     <>
-      <div className="topbar">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <button className="hamburger-btn" onClick={() => setOpen(true)} aria-label="Abrir menu">
-            <Menu size={20} color="#64748b" />
-          </button>
-          <h1 className="topbar-title">Controle de Demandas</h1>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
-          <p className="topbar-date">
-            {new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' })}
-          </p>
-          <div className="topbar-live">
-            <span className="live-dot" />
-            Atualização automática
-            {lastUpdate && (
-              <span>· {lastUpdate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
-            )}
-          </div>
-        </div>
+      <div className="mobile-topbar">
+        <button className="hamburger-btn" onClick={() => setOpen(true)} aria-label="Abrir menu">
+          <Menu size={20} color="#64748b" />
+        </button>
+        <span className="mobile-topbar-title">Controle de Demandas</span>
       </div>
 
       <div className="content-area">
