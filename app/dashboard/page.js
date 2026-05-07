@@ -13,7 +13,7 @@ const POLL_INTERVAL = 30000; // 30 seconds
 export default function DashboardPage() {
   const [username, setUsername] = useState('');
   const [demandas, setDemandas] = useState([]);
-  const [stats, setStats] = useState({ total: 0, aberto: 0, tramitacao: 0, alta_prioridade: 0 });
+  const [stats, setStats] = useState({ total: 0, aberto: 0, aguardando: 0, concluida: 0 });
   const [filterOpts, setFilterOpts] = useState({ municipios: [], statuses: [], prioridades: [] });
   const [pagination, setPagination] = useState({ total: 0 });
   const [selected, setSelected] = useState(null);
@@ -60,7 +60,7 @@ export default function DashboardPage() {
 
       if (result.success) {
         setDemandas(result.data || []);
-        setStats(result.stats || { total: 0, aberto: 0, tramitacao: 0, alta_prioridade: 0 });
+        setStats(result.stats || { total: 0, aberto: 0, aguardando: 0, concluida: 0 });
         setPagination(result.pagination || { total: 0 });
 
         if (result.filters) {

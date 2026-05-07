@@ -70,9 +70,9 @@ export async function GET(request) {
     const statsResult = await pool.query(`
       SELECT
         COUNT(*) as total,
-        COUNT(*) FILTER (WHERE status IN ('Cadastrado', 'Em Análise', 'Em Andamento')) as aberto,
-        COUNT(*) FILTER (WHERE status IN ('Encaminhado', 'Aguardando Resposta')) as tramitacao,
-        COUNT(*) FILTER (WHERE prioridade IN ('Urgente', 'Alta')) as alta_prioridade
+        COUNT(*) FILTER (WHERE status = 'Nova') as aberto,
+        COUNT(*) FILTER (WHERE status = 'Aguardando Feedback') as aguardando,
+        COUNT(*) FILTER (WHERE status = 'Concluída') as concluida
       FROM controle_demanda
     `);
 
