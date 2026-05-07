@@ -30,7 +30,7 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (data.success) {
-        router.push('/dashboard');
+        router.push('/');
       } else {
         setError(data.message || 'Credenciais inválidas.');
       }
