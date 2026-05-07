@@ -1022,11 +1022,33 @@ body {
     padding: 12px 14px;
   }
 
-  /* Cards: 1 coluna no mobile */
+  /* No mobile, libera scroll e anula o layout fixo do desktop */
+  .app-layout {
+    height: auto;
+    overflow: visible;
+  }
+
+  .main-content {
+    height: auto;
+    overflow: visible;
+  }
+
+  .content-area {
+    overflow-y: visible;
+    flex: none;
+  }
+
+  .cards-container {
+    overflow: visible;
+    flex: none;
+  }
+
+  /* Cards: 1 coluna no mobile, altura natural */
   .cards-grid {
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(6, 1fr);
+    grid-template-rows: auto;
     gap: 8px;
+    animation: none;
   }
 }
 
