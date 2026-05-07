@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { Menu } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
 import StatsCards from '@/components/StatsCards';
 import FilterBar from '@/components/FilterBar';
@@ -26,6 +27,7 @@ export default function DashboardPage() {
   const [page, setPage] = useState(1);
 
   const [lastUpdate, setLastUpdate] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const intervalRef = useRef(null);
 
   useEffect(() => {
@@ -82,15 +84,20 @@ export default function DashboardPage() {
 
   return (
     <div className="app-layout">
-      <Sidebar username={username} />
+      <Sidebar username={username} isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="main-content">
         <div className="topbar">
-          <div>
-            <h1 className="topbar-title">Controle de Demandas</h1>
-            <p className="topbar-sub">
-              Dep. Federal Reimont — PT/RJ · tabela: <code>controle_demanda</code>
-            </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <button className="hamburger-btn" onClick={() => setSidebarOpen(true)} aria-label="Abrir menu">
+              <Menu size={20} color="#64748b" />
+            </button>
+            <div>
+              <h1 className="topbar-title">Controle de Demandas</h1>
+              <p className="topbar-sub">
+                Dep. Federal Reimont — PT/RJ · tabela: <code>controle_demanda</code>
+              </p>
+            </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
             <p className="topbar-date">
