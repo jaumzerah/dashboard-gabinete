@@ -1,0 +1,52 @@
+version: "3.7"
+
+services:
+  dashboard:
+    # Imagem local — construir com: docker build -t dashboard_gabinete .
+    image: dashboard_gabinete:latest
+
+    # Hostname dinâmico para identificar a instância no cluster Swarm
+    hostname: "{{.Service.Name}}.{{.Task.Slot}}"
+
+    # Variáveis de ambiente — ajustar conforme necessário
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres_postgres:5432/database_name
+      - DASH_USERS={"chefe":"apolonio2025","admin":"gabinete2025"}
+      - JWT_SECRET=TROCAR-POR-UMA-CHAVE-SECRETA-ALEATORIA
+      - HOSTNAME=0.0.0.0
+      - PORT=3000
+      - NODE_ENV=production
+
+    # Conecta à rede externa usada no cluster (mesma do PostgreSQL e Traefik)
+    networks:
+      - ApolonioNet
+
+    # Configuração de deploy do serviço no modo Swarm
+    deploy:
+      mode: replicated
+      replicas: 1
+
+      # Labels do Traefik para reverse proxy automático
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.dashboard-gabinete.rule=Host(`dashboard.gabinete.cloud`)"
+        - "traefik.http.routers.dashboard-gabinete.entrypoints=websecure"
+        - "traefik.http.routers.dashboard-gabinete.tls.certresolver=letsencrypt"
+        - "traefik.http.services.dashboard-gabinete.loadbalancer.server.port=3000"
+
+      # Define onde o serviço será implantado
+      placement:
+        constraints:
+          - node.role == manager
+
+      # Limites de CPU e memória
+      resources:
+        limits:
+          cpus: "1"
+          memory: 512M
+
+# Rede overlay externa usada em todo o cluster
+networks:
+  ApolonioNet:
+    external: true
+    name: ApolonioNet
