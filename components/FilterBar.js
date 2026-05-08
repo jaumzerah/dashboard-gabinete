@@ -5,6 +5,7 @@ export default function FilterBar({
   status, onStatusChange,
   municipio, onMunicipioChange,
   prioridade, onPrioridadeChange,
+  responsavel, onResponsavelChange,
   filterOpts,
   total,
   loading,
@@ -12,7 +13,7 @@ export default function FilterBar({
   onClearFilters,
 }) {
   const handleExportCSV = () => {
-    const params = new URLSearchParams({ status, municipio, prioridade, search, format: 'csv' });
+    const params = new URLSearchParams({ status, municipio, prioridade, responsavel, search, format: 'csv' });
     window.location.href = `/api/demandas?${params}`;
   };
   return (
@@ -63,6 +64,18 @@ export default function FilterBar({
           <option value="todos">Todas as prioridades</option>
           {filterOpts.prioridades.map((p) => (
             <option key={p} value={p}>{p}</option>
+          ))}
+        </select>
+
+        <select
+          id="filter-responsavel"
+          className="filter-select"
+          value={responsavel}
+          onChange={(e) => onResponsavelChange(e.target.value)}
+        >
+          <option value="todos">Todos os assessores</option>
+          {(filterOpts.responsaveis || []).map((r) => (
+            <option key={r} value={r}>{r}</option>
           ))}
         </select>
 

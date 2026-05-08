@@ -24,6 +24,7 @@ export default function DashboardPage() {
   const [filterStatus, setFilterStatus] = useState('todos');
   const [filterMunicipio, setFilterMunicipio] = useState('todos');
   const [filterPrioridade, setFilterPrioridade] = useState('todos');
+  const [filterResponsavel, setFilterResponsavel] = useState('todos');
   const [searchInput, setSearchInput] = useState('');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
@@ -42,6 +43,7 @@ export default function DashboardPage() {
         status: filterStatus,
         municipio: filterMunicipio,
         prioridade: filterPrioridade,
+        responsavel: filterResponsavel,
         search,
         limit: String(PER_PAGE),
         offset: String((page - 1) * PER_PAGE),
@@ -64,7 +66,7 @@ export default function DashboardPage() {
     } finally {
       if (!isBackground) setLoading(false);
     }
-  }, [filterStatus, filterMunicipio, filterPrioridade, search, page]);
+  }, [filterStatus, filterMunicipio, filterPrioridade, filterResponsavel, search, page]);
 
   useEffect(() => { fetchData(false); }, [fetchData]);
 
@@ -73,7 +75,7 @@ export default function DashboardPage() {
     return () => clearInterval(intervalRef.current);
   }, [fetchData]);
 
-  const hasFilters = filterStatus !== 'todos' || filterMunicipio !== 'todos' || filterPrioridade !== 'todos' || searchInput !== '';
+  const hasFilters = filterStatus !== 'todos' || filterMunicipio !== 'todos' || filterPrioridade !== 'todos' || filterResponsavel !== 'todos' || searchInput !== '';
 
   return (
     <>
@@ -95,11 +97,13 @@ export default function DashboardPage() {
           onMunicipioChange={(val) => { setFilterMunicipio(val); setPage(1); }}
           prioridade={filterPrioridade}
           onPrioridadeChange={(val) => { setFilterPrioridade(val); setPage(1); }}
+          responsavel={filterResponsavel}
+          onResponsavelChange={(val) => { setFilterResponsavel(val); setPage(1); }}
           filterOpts={filterOpts}
           total={pagination.total || 0}
           loading={loading}
           hasFilters={hasFilters}
-          onClearFilters={() => { setFilterStatus('todos'); setFilterMunicipio('todos'); setFilterPrioridade('todos'); setSearchInput(''); setSearch(''); setPage(1); }}
+          onClearFilters={() => { setFilterStatus('todos'); setFilterMunicipio('todos'); setFilterPrioridade('todos'); setFilterResponsavel('todos'); setSearchInput(''); setSearch(''); setPage(1); }}
         />
         <DataTable
           data={demandas}

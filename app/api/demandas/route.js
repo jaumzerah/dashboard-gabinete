@@ -7,6 +7,7 @@ export async function GET(request) {
     const status = searchParams.get('status') || 'todos';
     const municipio = searchParams.get('municipio') || 'todos';
     const prioridade = searchParams.get('prioridade') || 'todos';
+    const responsavel = searchParams.get('responsavel') || 'todos';
     const search = (searchParams.get('search') || '').slice(0, 100);
     const format = searchParams.get('format') || 'json';
     const isCSV = format === 'csv';
@@ -28,6 +29,10 @@ export async function GET(request) {
     if (prioridade !== 'todos') {
       conditions.push(`prioridade = $${paramIdx++}`);
       params.push(prioridade);
+    }
+    if (responsavel !== 'todos') {
+      conditions.push(`responsavel = $${paramIdx++}`);
+      params.push(responsavel);
     }
     if (search) {
       conditions.push(`(
@@ -85,10 +90,11 @@ export async function GET(request) {
       FROM controle_demanda
     `);
 
-    const [munRes, statRes, priorRes] = await Promise.all([
+    const [munRes, statRes, priorRes, respRes] = await Promise.all([
       pool.query(`SELECT DISTINCT municipio FROM controle_demanda WHERE municipio IS NOT NULL AND municipio != '' ORDER BY municipio`),
       pool.query(`SELECT DISTINCT status FROM controle_demanda WHERE status IS NOT NULL AND status != '' ORDER BY status`),
       pool.query(`SELECT DISTINCT prioridade FROM controle_demanda WHERE prioridade IS NOT NULL AND prioridade != '' ORDER BY prioridade`),
+      pool.query(`SELECT DISTINCT responsavel FROM controle_demanda WHERE responsavel IS NOT NULL AND responsavel != '' ORDER BY responsavel`),
     ]);
 
     return NextResponse.json({
@@ -105,6 +111,7 @@ export async function GET(request) {
         municipios: munRes.rows.map((r) => r.municipio),
         statuses: statRes.rows.map((r) => r.status),
         prioridades: priorRes.rows.map((r) => r.prioridade),
+        responsaveis: respRes.rows.map((r) => r.responsavel),
       },
     });
   } catch (err) {
