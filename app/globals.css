@@ -521,6 +521,12 @@ body {
   grid-template-rows: repeat(3, 1fr);
   gap: 12px;
   animation: cardsFadeIn 200ms ease;
+  transition: opacity 180ms ease;
+}
+
+.cards-grid-updating {
+  opacity: 0.45;
+  pointer-events: none;
 }
 
 .demand-card {

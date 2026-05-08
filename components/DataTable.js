@@ -19,19 +19,25 @@ export default function DataTable({ data, total, page, onPageChange, loading, on
     return pages;
   };
 
+  // Carga inicial: sem dados ainda
+  const isInitialLoad = loading && data.length === 0;
+  // Sem resultados após carregar
+  const isEmpty = !loading && data.length === 0;
+
   return (
     <div className="cards-container">
-      {loading ? (
+      {isInitialLoad ? (
         <div className="cards-loading">Buscando demandas...</div>
-      ) : data.length === 0 ? (
+      ) : isEmpty ? (
         <div className="cards-empty">Nenhuma demanda encontrada.</div>
       ) : (
-        <div className="cards-grid" key={page}>
+        <div className={`cards-grid${loading ? ' cards-grid-updating' : ''}`} key={page}>
           {data.map((d) => (
             <button
               key={d.id}
               className="demand-card"
               onClick={() => onView(d)}
+              disabled={loading}
               aria-label={`Ver demanda ${d.protocolo}`}
             >
               <div className="demand-card-header">
