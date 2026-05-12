@@ -14,9 +14,9 @@ services:
 
     environment:
       - DATABASE_URL=postgresql://postgres:password@postgres_postgres:5432/database_name
-      - DASH_USERS={"dani":"dani2026","alipio":"alipio2026","ledenir":"ledenir2026","joao":"joao2026","reimont":"reimont2026","divino":"divino2026","janaina":"janaina2026","mita":"mita2026","suellyema":"suellyema2026","natalia1":"natalia12026","natalia2":"natalia22026","claudina":"claudina2026","carin":"carin2026","rayana":"rayana2026"}
+      - DASH_USERS={"dani":"dani2026","alipio":"alipio2026","ledenir":"ledenir2026","joao":"joao2026","reimont":"reimont2026","divino":"divino2026","janaina":"janaina2026","mita":"mita2026","suellyema":"suellyema2026","natalia":"natalia2026","claudina":"claudina2026","carin":"carin2026","rayana":"rayana2026"}
       - DASH_ADMINS=["dani","alipio","ledenir","joao","reimont","divino"]
-      - DASH_RESPONSAVEL_MAP={"janaina":"Janaina","mita":"Mitã","suellyema":"Suellyema","natalia1":"Natalia","natalia2":"Natalia","claudina":"Claudina","carin":"Carin","rayana":"Rayana"}
+      - DASH_RESPONSAVEL_MAP={"janaina":"Janaina","mita":"Mitã","suellyema":"Suellyema","natalia":"Natalia","claudina":"Claudina","carin":"Carin","rayana":"Rayana"}
       - JWT_SECRET=TROCAR-POR-UMA-CHAVE-SECRETA-ALEATORIA
       - REDIS_URL=redis://redis_redis:6379
       - HOSTNAME=0.0.0.0
