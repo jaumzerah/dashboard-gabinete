@@ -15,8 +15,8 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:3cmKimOvh7U9QVTbJftX6HTVTq@postgres_postgres:5432/dashboard-apolonio
       - DASH_ADMINS=["Dani","Alipio","Ledenir","JoaoAndrade","Reimont","Divino"]
-      - DASH_RESPONSAVEL_MAP={"Mita":"Mitã"}
-      - DASH_USERS={"Dani":"malulu","Alipio":"apolonio2026","Ledenir":"ledenir2026","JoaoAndrade":"apopoDev","Reimont":"reimont2026","Divino":"divino2026","Janaina":"janaina2026","Mita":"mita2026","Suellyema":"suellyema2026","Natalia":"natalia2026","Claudina":"claudina2026","Carin":"carin2026","Rayana":"rayana2026"}}
+      - DASH_RESPONSAVEL_MAP={"mita":"Mitã"}
+      - DASH_USERS={"Dani":"malulu","Alipio":"apolonio2026","Ledenir":"ledenir2026","JoaoAndrade":"apopoDev","Reimont":"reimont2026","Divino":"divino2026","Janaina":"janaina2026","mita":"mita2026","Suellyema":"suellyema2026","Natalia":"natalia2026","Claudina":"claudina2026","Carin":"carin2026","Rayana":"rayana2026"}
       - JWT_SECRET=DZ5xWCyOCIFabkXJH72ybdqZsV
       - REDIS_URL=redis://redis_redis:6379
       - HOSTNAME=0.0.0.0
