@@ -3,5 +3,9 @@ import { getSession } from '@/lib/auth';
 
 export async function GET() {
   const session = await getSession();
-  return NextResponse.json({ success: true, username: session?.username ?? '' });
+  return NextResponse.json({
+    success: true,
+    username: session?.username ?? '',
+    role: session?.role ?? 'assessor',
+  });
 }

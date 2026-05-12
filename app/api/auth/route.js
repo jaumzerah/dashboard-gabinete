@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { createToken, COOKIE_NAME } from '@/lib/auth';
 import { checkRateLimit } from '@/lib/rateLimit';
+import { isAdmin } from '@/lib/roles';
 import pool from '@/lib/db';
 
 /**
@@ -50,9 +51,10 @@ export async function POST(request) {
       );
     }
 
-    const token = await createToken(username);
+    const role = isAdmin(username) ? 'admin' : 'assessor';
+    const token = await createToken(username, role);
 
-    const response = NextResponse.json({ success: true, username });
+    const response = NextResponse.json({ success: true, username, role });
 
     response.cookies.set(COOKIE_NAME, token, {
       httpOnly: true,

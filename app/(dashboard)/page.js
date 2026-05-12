@@ -12,7 +12,8 @@ const PER_PAGE = 6;
 const POLL_INTERVAL = 30000;
 
 export default function DashboardPage() {
-  const { setOpen, setLastUpdate } = useSidebar();
+  const { setOpen, setLastUpdate, role } = useSidebar();
+  const isAdmin = role === 'admin';
 
   const [demandas, setDemandas] = useState([]);
   const [stats, setStats] = useState({ total: 0, aberto: 0, aguardando: 0, concluida: 0 });
@@ -97,6 +98,7 @@ export default function DashboardPage() {
           onMunicipioChange={(val) => { setFilterMunicipio(val); setPage(1); }}
           prioridade={filterPrioridade}
           onPrioridadeChange={(val) => { setFilterPrioridade(val); setPage(1); }}
+          isAdmin={isAdmin}
           responsavel={filterResponsavel}
           onResponsavelChange={(val) => { setFilterResponsavel(val); setPage(1); }}
           filterOpts={filterOpts}

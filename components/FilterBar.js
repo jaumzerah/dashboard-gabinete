@@ -6,6 +6,7 @@ export default function FilterBar({
   municipio, onMunicipioChange,
   prioridade, onPrioridadeChange,
   responsavel, onResponsavelChange,
+  isAdmin,
   filterOpts,
   total,
   loading,
@@ -67,17 +68,19 @@ export default function FilterBar({
           ))}
         </select>
 
-        <select
-          id="filter-responsavel"
-          className="filter-select"
-          value={responsavel}
-          onChange={(e) => onResponsavelChange(e.target.value)}
-        >
-          <option value="todos">Todos os assessores</option>
-          {(filterOpts.responsaveis || []).map((r) => (
-            <option key={r} value={r}>{r}</option>
-          ))}
-        </select>
+        {isAdmin && (
+          <select
+            id="filter-responsavel"
+            className="filter-select"
+            value={responsavel}
+            onChange={(e) => onResponsavelChange(e.target.value)}
+          >
+            <option value="todos">Todos os assessores</option>
+            {(filterOpts.responsaveis || []).map((r) => (
+              <option key={r} value={r}>{r}</option>
+            ))}
+          </select>
+        )}
 
         {hasFilters && (
           <button id="filter-clear" className="filter-clear-btn" onClick={onClearFilters}>

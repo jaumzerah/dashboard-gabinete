@@ -6,6 +6,7 @@ import { SidebarContext } from '@/lib/SidebarContext';
 
 export default function DashboardLayout({ children }) {
   const [username, setUsername] = useState('');
+  const [role, setRole] = useState('assessor');
   const [alertCount, setAlertCount] = useState(0);
   const [open, setOpen] = useState(false);
   const [lastUpdate, setLastUpdate] = useState(null);
@@ -13,7 +14,12 @@ export default function DashboardLayout({ children }) {
   useEffect(() => {
     fetch('/api/auth/me')
       .then((r) => r.json())
-      .then((d) => { if (d.success) setUsername(d.username || ''); })
+      .then((d) => {
+        if (d.success) {
+          setUsername(d.username || '');
+          setRole(d.role || 'assessor');
+        }
+      })
       .catch(() => {});
   }, []);
 
@@ -25,7 +31,7 @@ export default function DashboardLayout({ children }) {
   }, []);
 
   return (
-    <SidebarContext.Provider value={{ open, setOpen, lastUpdate, setLastUpdate }}>
+    <SidebarContext.Provider value={{ open, setOpen, lastUpdate, setLastUpdate, role }}>
       <div className="app-layout">
         <Sidebar
           username={username}

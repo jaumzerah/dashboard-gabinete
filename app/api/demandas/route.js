@@ -1,13 +1,26 @@
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db';
+import { verifyToken } from '@/lib/auth';
+import { getResponsavelDB } from '@/lib/roles';
 
 export async function GET(request) {
   try {
+    // Verificar sessão e papel
+    const token = request.cookies.get('dash_session')?.value;
+    const session = token ? await verifyToken(token) : null;
+    if (!session) {
+      return NextResponse.json({ success: false, message: 'Não autenticado.' }, { status: 401 });
+    }
+    const userIsAdmin = session.role === 'admin';
+
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status') || 'todos';
     const municipio = searchParams.get('municipio') || 'todos';
     const prioridade = searchParams.get('prioridade') || 'todos';
-    const responsavel = searchParams.get('responsavel') || 'todos';
+    // Assessores têm o responsavel fixado no próprio nome — ignoram o param do cliente
+    const responsavel = userIsAdmin
+      ? (searchParams.get('responsavel') || 'todos')
+      : getResponsavelDB(session.username);
     const search = (searchParams.get('search') || '').slice(0, 100);
     const format = searchParams.get('format') || 'json';
     const isCSV = format === 'csv';
@@ -30,7 +43,8 @@ export async function GET(request) {
       conditions.push(`prioridade = $${paramIdx++}`);
       params.push(prioridade);
     }
-    if (responsavel !== 'todos') {
+    // Para assessores o responsavel nunca é 'todos' — é sempre o nome deles
+    if (!userIsAdmin || responsavel !== 'todos') {
       conditions.push(`responsavel = $${paramIdx++}`);
       params.push(responsavel);
     }
@@ -81,20 +95,28 @@ export async function GET(request) {
       });
     }
 
-    const statsResult = await pool.query(`
-      SELECT
+    // Escopo de stats e filtros de opções: assessores veem apenas seus dados
+    const scopeParams = userIsAdmin ? [] : [getResponsavelDB(session.username)];
+    const scopeClause = userIsAdmin ? '' : 'WHERE responsavel = $1';
+    const andOrWhere = userIsAdmin ? 'WHERE' : 'AND';
+
+    const statsResult = await pool.query(
+      `SELECT
         COUNT(*) as total,
         COUNT(*) FILTER (WHERE status = 'Nova') as aberto,
         COUNT(*) FILTER (WHERE status = 'Aguardando Feedback') as aguardando,
         COUNT(*) FILTER (WHERE status = 'Concluída') as concluida
-      FROM controle_demanda
-    `);
+       FROM controle_demanda ${scopeClause}`,
+      scopeParams
+    );
 
     const [munRes, statRes, priorRes, respRes] = await Promise.all([
-      pool.query(`SELECT DISTINCT municipio FROM controle_demanda WHERE municipio IS NOT NULL AND municipio != '' ORDER BY municipio`),
-      pool.query(`SELECT DISTINCT status FROM controle_demanda WHERE status IS NOT NULL AND status != '' ORDER BY status`),
-      pool.query(`SELECT DISTINCT prioridade FROM controle_demanda WHERE prioridade IS NOT NULL AND prioridade != '' ORDER BY prioridade`),
-      pool.query(`SELECT DISTINCT responsavel FROM controle_demanda WHERE responsavel IS NOT NULL AND responsavel != '' ORDER BY responsavel`),
+      pool.query(`SELECT DISTINCT municipio FROM controle_demanda ${scopeClause} ${andOrWhere} municipio IS NOT NULL AND municipio != '' ORDER BY municipio`, scopeParams),
+      pool.query(`SELECT DISTINCT status FROM controle_demanda ${scopeClause} ${andOrWhere} status IS NOT NULL AND status != '' ORDER BY status`, scopeParams),
+      pool.query(`SELECT DISTINCT prioridade FROM controle_demanda ${scopeClause} ${andOrWhere} prioridade IS NOT NULL AND prioridade != '' ORDER BY prioridade`, scopeParams),
+      userIsAdmin
+        ? pool.query(`SELECT DISTINCT responsavel FROM controle_demanda WHERE responsavel IS NOT NULL AND responsavel != '' ORDER BY responsavel`)
+        : Promise.resolve({ rows: [] }),
     ]);
 
     return NextResponse.json({
