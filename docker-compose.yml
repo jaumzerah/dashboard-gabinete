@@ -6,18 +6,18 @@ services:
     hostname: "{{.Service.Name}}.{{.Task.Slot}}"
 
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/ping"]
+      test: [ "CMD", "wget", "-qO-", "http://localhost:3000/api/ping" ]
       interval: 30s
       timeout: 5s
       retries: 3
       start_period: 20s
 
     environment:
-      - DATABASE_URL=postgresql://postgres:password@postgres_postgres:5432/database_name
-      - DASH_USERS={"dani":"dani2026","alipio":"alipio2026","ledenir":"ledenir2026","joao":"joao2026","reimont":"reimont2026","divino":"divino2026","janaina":"janaina2026","mita":"mita2026","suellyema":"suellyema2026","natalia":"natalia2026","claudina":"claudina2026","carin":"carin2026","rayana":"rayana2026"}
-      - DASH_ADMINS=["dani","alipio","ledenir","joao","reimont","divino"]
-      - DASH_RESPONSAVEL_MAP={"janaina":"Janaina","mita":"Mitã","suellyema":"Suellyema","natalia":"Natalia","claudina":"Claudina","carin":"Carin","rayana":"Rayana"}
-      - JWT_SECRET=TROCAR-POR-UMA-CHAVE-SECRETA-ALEATORIA
+      - DATABASE_URL=postgresql://postgres:3cmKimOvh7U9QVTbJftX6HTVTq@postgres_postgres:5432/dashboard-apolonio
+      - DASH_ADMINS=["Dani","Alipio","Ledenir","JoaoAndrade","Reimont","Divino"]
+      - DASH_RESPONSAVEL_MAP={"Mita":"Mitã"}
+      - DASH_USERS={"Dani":"malulu","Alipio":"apolonio2026","Ledenir":"ledenir2026","JoaoAndrade":"apopoDev","Reimont":"reimont2026","Divino":"divino2026","Janaina":"janaina2026","Mita":"mita2026","Suellyema":"suellyema2026","Natalia":"natalia2026","Claudina":"claudina2026","Carin":"carin2026","Rayana":"rayana2026"}}
+      - JWT_SECRET=DZ5xWCyOCIFabkXJH72ybdqZsV
       - REDIS_URL=redis://redis_redis:6379
       - HOSTNAME=0.0.0.0
       - PORT=3000
