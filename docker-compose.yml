@@ -14,7 +14,9 @@ services:
 
     environment:
       - DATABASE_URL=postgresql://postgres:password@postgres_postgres:5432/database_name
-      - DASH_USERS={"chefe":"apolonio2025","admin":"gabinete2025"}
+      - DASH_USERS={"dani":"senha","alipio":"senha","ledenir":"senha","joao":"senha","reimont":"senha","divino":"senha","nilson":"senha","mita":"senha","janaina":"senha"}
+      - DASH_ADMINS=["dani","alipio","ledenir","joao","reimont","divino"]
+      - DASH_RESPONSAVEL_MAP={"nilson":"Nilson","mita":"Mitã","janaina":"Janaina"}
       - JWT_SECRET=TROCAR-POR-UMA-CHAVE-SECRETA-ALEATORIA
       - REDIS_URL=redis://redis_redis:6379
       - HOSTNAME=0.0.0.0
